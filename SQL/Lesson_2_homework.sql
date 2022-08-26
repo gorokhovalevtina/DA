@@ -50,27 +50,19 @@ where result = 'sunk')
 select ship,class
 from Outcomes o join battles b on o.battle =b.name
 join ships s  on o.ship =s."name" 
-where result = 'sunk'
-order by date desc limit 1
+where result = 'sunk' and 
+date = (select max(date)
+from outcomes o join battles b on o.battle = b.name
+where result = 'sunk')
+
 
 Задание 8: Вывести все потопленные корабли, у которых калибр орудий не менее 16, и которые потоплены. Вывод: ship, class
 
-select *
-from outcomes o full join ships s  on o.ship = s.name
-full join classes c on s."class" =c."class" 
-where result = 'sunk'
+select o.ship, c.class
+from outcomes o  join ships s  on o.ship = s.name
+join classes c on s."class" =c."class" 
+where result = 'sunk' and bore>=16
 
-select *
-from ships
-
-select *
-from Outcomes o
-
-select *
-from battles b
-
-select *
-from classes c
 
 Задание 9: Вывести все классы кораблей, выпущенные США (таблица classes, country = 'USA'). Вывод: class
 
